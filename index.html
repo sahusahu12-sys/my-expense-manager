@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Manager</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+            background: #f5f5f5; 
+            color: #333;
+            padding-bottom: 60px;
+        }
+        .container { max-width: 500px; margin: 0 auto; padding: 1em; }
+        header { 
+            background: #007AFF; 
+            color: white; 
+            padding: 1em; 
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav { 
+            display: flex; 
+            justify-content: space-around; 
+            background: white;
+            padding: 0.5em;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+        nav button { 
+            background: none; 
+            border: none; 
+            padding: 0.8em;
+            font-size: 0.9em;
+            cursor: pointer;
+            flex: 1;
+        }
+        nav button.active { color: #007AFF; font-weight: bold; }
+        .view { display: none; }
+        .view.active { display: block; }
+        .card { 
+            background: white; 
+            padding: 1em; 
+            margin-bottom: 1em; 
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        input, select, textarea { 
+            width: 100%; 
+            padding: 0.8em; 
+            margin: 0.5em 0; 
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button { 
+            background: #007AFF; 
+            color: white; 
+            border: none; 
+            padding: 1em; 
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            width: 100%;
+        }
+        .expense-item { 
+            display: flex; 
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8em 0;
+            border-bottom: 1px solid #eee;
+        }
+        .expense-item:last-child { border-bottom: none; }
+        .delete-btn { 
+            background: #ff3b30; 
+            color: white; 
+            padding: 0.3em 0.8em;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+        .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; }
+        .summary-card { 
+            background: white; 
+            padding: 1em; 
+            border-radius: 8px;
+            text-align: center;
+        }
+        .summary-card h3 { color: #007AFF; margin-bottom: 0.5em; }
+        .summary-card p { font-size: 1.5em; font-weight: bold; }
+        .category-badge { 
+            background: #e0e0e0; 
+            padding: 0.2em 0.5em; 
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+        #totalAmount { color: #34c759; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Expense Manager</h1>
+    </header>
+
+    <div class="container">
+        <!-- Add Expense View -->
+        <div id="addView" class="view active">
+            <div class="card">
+                <h2>Add Expense</h2>
+                <input type="number" id="amount" placeholder="Amount ($)" step="0.01">
+                <select id="category">
+                    <option value="Food">Food</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Other">Other</option>
+                </select>
+                <input type="date" id="date" value="">
+                <textarea id="description" placeholder="Description (optional)" rows="2"></textarea>
+                <button onclick="addExpense()">Add Expense</button>
+            </div>
+        </div>
+
+        <!-- Expenses List View -->
+        <div id="listView" class="view">
+            <div class="card">
+                <h2>Recent Expenses</h2>
+                <div id="expensesList"></div>
+            </div>
+        </div>
+
+        <!-- Summary View -->
+        <div id="summaryView" class="view">
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h3>Total This Month</h3>
+                    <p id="totalAmount">$0.00</p>
+                </div>
+                <div class="summary-card">
+                    <h3>This Month Count</h3>
+                    <p id="totalCount">0</p>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 1em;">
+                <h3>By Category</h3>
+                <div id="categorySummary"></div>
+            </div>
+        </div>
+    </div>
+
+    <nav>
+        <button class="active" onclick="showView('add')">Add</button>
+        <button onclick="showView('list')">List</button>
+        <button onclick="showView('summary')">Summary</button>
+    </nav>
+
+<script src="app.js"></script>
+</body>
+</html>

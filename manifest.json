@@ -1,0 +1,9 @@
+{
+  "name": "Expense Manager",
+  "short_name": "Expenses",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#007AFF",
+  "theme_color": "#007AFF",
+  "icons": []
+}
